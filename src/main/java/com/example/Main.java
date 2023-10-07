@@ -15,35 +15,36 @@ public class Main {
         // Crie e inicie várias instâncias de veículo
         Vehicle veiculo1 = new Vehicle("Veiculo1", empresa);
         Vehicle veiculo2 = new Vehicle("Veiculo2", empresa);
+        // System.out.println("passei 1" + empresa.getVeiculos().get(0).getName());
+        // System.out.println("passei 1" + empresa.getVeiculos().get(1).getName());
+        // System.out.println("passei 1" + empresa.getVeiculos().get(2).getName());
+        // System.out.println("passei 1" + empresa.getVeiculos().get(3).getName());
+        // Route rota0 = rotasParaExecutar.get(0); // Atribuir a rota 0 ao Veiculo 1
+        // Route rota1 = rotasParaExecutar.get(1);
 
-        Route rota0 = rotasParaExecutar.get(0); // Atribuir a rota 0 ao Veiculo 1
-        Route rota1 = rotasParaExecutar.get(1);
-
-        empresa.registrarVeiculo(veiculo1, rota0);
-        empresa.registrarVeiculo(veiculo2, rota1);
+        empresa.registrarVeiculo(veiculo1);
+        empresa.registrarVeiculo(veiculo2);
 
         veiculo1.start();
         veiculo2.start();
 
         // Inicie a thread da empresa
         empresa.start();
-        System.out.println("passei 1");
+
+        // System.out.println("passei 1" + empresa.getVeiculos().get(1).getName());
         // Aguarde até que todas as threads terminem
         try {
             veiculo1.join();
             veiculo2.join();
             empresa.join();
-            System.out.println("passei 2");
+
         } catch (InterruptedException e) {
             e.printStackTrace();
-            System.out.println("passei 3");
+
         }
 
         // Após a conclusão, você pode imprimir informações sobre as rotas e veículos,
         // se necessário.
-        // System.out.println("Rotas Executadas: " + empresa.getRotasExecutadas());
-        // System.out.println("Rotas Pendentes: " + empresa.getRotasParaExecutar());
-        System.out.println("Rotas em Execução: " + empresa.getRotasEmExecucao());
-        System.out.println("Veículos Disponíveis: " + empresa.getVeiculos().get(1).getNome());
+
     }
 }
