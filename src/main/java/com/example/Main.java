@@ -8,6 +8,7 @@ public class Main {
         // Substitua o caminho do arquivo XML pelo caminho do seu arquivo XML
         RouteParser routeParser = new RouteParser("C:\\Users\\Leonardo Monteiro\\Desktop\\teste\\map\\map.rou.xml");
         ArrayList<Route> rotasParaExecutar = routeParser.getRoutes();
+        System.out.println("rotas para executar: " + rotasParaExecutar.size());
 
         // Crie uma instância da empresa
         Company empresa = new Company(rotasParaExecutar);
@@ -19,13 +20,6 @@ public class Main {
 
         empresa.registrarVeiculo(veiculo1);
         empresa.registrarVeiculo(veiculo2);
-        // System.out.println("Veiculo registrado como : " + veiculo2.getNome());
-        // empresa.registrarVeiculo(veiculo3);
-        /*
-         * System.out.println(
-         * "Rota para executar "
-         * + empresa.getRotasParaExecutar().size());
-         */
 
         veiculo1.start();
         empresa.start();
@@ -37,19 +31,34 @@ public class Main {
         // empresa.start();
 
         // Aguarde até que todas as threads terminem
-        try {
-            // veiculo1.join();
-            veiculo2.join();
-            // veiculo3.join();
-            empresa.join();
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-
-        }
+        /*
+         * try {
+         * // veiculo1.join();
+         * // veiculo2.join();
+         * // veiculo3.join();
+         * // empresa.join();
+         * 
+         * } catch (Exception e) {
+         * e.printStackTrace();
+         * 
+         * }
+         */
 
         // Após a conclusão, você pode imprimir informações sobre as rotas e veículos,
         // se necessário.
+        System.out.println("");
+        System.out.println("========================================");
+        System.out.println("Relatorio de simulação:");
+        System.out.println("=======================");
+        System.out.println("");
+        System.out.println("Lista de Veiculos: " + empresa.getVeiculos().size());
+        System.out.println("Rota para executar:  " + empresa.getRotasParaExecutar().size());
+        System.out.println("Rota em execucao:  " + empresa.getRotasEmExecucao().size());
+        System.out.println("Rota executada:  " + empresa.getRotasExecutadas().size());
+        System.out.println("");
+        System.out.println("========================================");
+        System.out.println("SIMULAÇÂO TERMINDADA");
+        System.out.println("========================================");
 
     }
 }

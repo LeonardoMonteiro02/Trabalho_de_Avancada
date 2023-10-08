@@ -21,14 +21,14 @@ public class Company extends Thread {
     }
 
     public synchronized void desregistrarVeiculo(Vehicle veiculo) {
-        System.out.println("Veiculo desregistrado:  " + veiculo.getNome());
         veiculos.remove(veiculo);
     }
 
     public synchronized void marcarRotaComoConcluida(Route rota) {
         rotasEmExecucao.remove(rota); // Remove da lista de rotas em execução
         rotasExecutadas.add(rota); // Move a rota para a lista de rotas executadas
-        System.out.println("Rota executada : " + getRotasExecutadas().get(getRotasExecutadas().size() - 1).getId());
+        // System.out.println("rota execudata: " +
+        // rotasExecutadas.get(rotasExecutadas.size() - 1).getId());
 
     }
 
@@ -71,10 +71,13 @@ public class Company extends Thread {
     public synchronized void run() {
 
         while (!rotasParaExecutar.isEmpty()) {
+            System.out.println("rota para executar 1 " + rotasParaExecutar.isEmpty());
             while (veiculos.isEmpty()) {
                 try {
+                    System.out.println("rota para executar 2 " + rotasParaExecutar.isEmpty());
                     wait(); // Aguarda até que um veículo esteja disponível
                 } catch (InterruptedException e) {
+                    System.out.println("rota para executar 3 " + rotasParaExecutar.isEmpty());
                     e.printStackTrace();
                 }
             }
@@ -84,8 +87,12 @@ public class Company extends Thread {
             // Aguarda até que o veículo termine sua rota atual
             while (veiculo.getRotaAtual() != null) {
                 try {
+                    System.out
+                            .println("rota para executar 4 " + rotasParaExecutar.isEmpty() + "   "
+                                    + veiculo.getRotaAtual().getId());
                     wait();
                 } catch (InterruptedException e) {
+                    System.out.println("rota para executar 5 " + rotasParaExecutar.isEmpty());
                     e.printStackTrace();
                 }
             }
@@ -94,8 +101,9 @@ public class Company extends Thread {
             rotasEmExecucao.add(rota); // Move a rota para a lista de rotas em execução
             veiculo.atribuirRota(rota);
             registrarVeiculo(veiculo);
-            System.out.println(veiculo.getNome() + ":  " + rota.getId());
+            System.out.println("rota para executar 6" + rotasParaExecutar.isEmpty());
 
         }
+        System.out.println("rota para executar 7");
     }
 }

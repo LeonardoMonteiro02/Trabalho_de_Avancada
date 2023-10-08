@@ -20,9 +20,9 @@ public class Vehicle extends Thread {
 
     @Override
     public void run() {
-        // System.out.println("Iniciando simulação do veiculo: " + getNome() + " e da
-        // sua rota: ");
+
         while (true) {
+            // System.out.println("Iniciando simulação do veiculo: " + getNome());
             synchronized (this) {
                 while (rotaAtual == null) {
                     try {
@@ -35,7 +35,6 @@ public class Vehicle extends Thread {
                 }
             }
 
-            System.out.println(getNome() + " esta executando a rota: " + rotaAtual.getId());
             simularExecucaoDaRota(rotaAtual);
             company.marcarRotaComoConcluida(rotaAtual);
             rotaAtual = company.atribuirProximaRotaParaVeiculo(this); // Solicita a próxima rota à Company
@@ -45,47 +44,10 @@ public class Vehicle extends Thread {
             }
 
         }
-        /*
-         * System.out.println(
-         * "Veiculo executado   "
-         * + getNome());
-         * // Desregistra o veículo quando não há mais rotas
-         * System.out.println(
-         * "Rota para executar"
-         * + company.getRotasParaExecutar().size());
-         * System.out.println(
-         * "Rota em Execucao "
-         * + company.getRotasEmExecucao().size());
-         * 
-         * System.out.println(
-         * "Rota Excutadas"
-         * + company.getRotasExecutadas().size());
-         * System.out.println(
-         * "Rota Excutadas"
-         * + company.getRotasExecutadas().get(0).getId() +
-         * company.getRotasExecutadas().get(1).getId()
-         * + company.getRotasExecutadas().get(2).getId());
-         */
 
         company.desregistrarVeiculo(this);
-        if (company.getVeiculos().size() == 0) {
-            // company.interrupt();
-            System.out.println("");
-            System.out.println("========================================");
-            System.out.println("Relatorio de simulação:");
-            System.out.println("=======================");
-            System.out.println("");
-            System.out.println("Lista de Veiculos: " + company.getVeiculos().size());
-            System.out.println("Rota para executar:  " + company.getRotasParaExecutar().size());
-            System.out.println("Rota em execucao:  " + company.getRotasEmExecucao().size());
-            System.out.println("Rota executada:  " + company.getRotasExecutadas().size());
-            System.out.println("");
-            System.out.println("========================================");
-            System.out.println("SIMULAÇÂO TERMINDADA");
-            System.out.println("========================================");
-            company.interrupt();
 
-        }
+        System.out.println("Thread veiculo ecerrada : " + getNome() + "  " + company.getRotasExecutadas().size());
     }
 
     public Route getRotaAtual() {
@@ -99,6 +61,7 @@ public class Vehicle extends Thread {
     public void simularExecucaoDaRota(Route rota) {
         // Implemente a lógica para simular a execução da rota aqui
         // Tempo de início da rota após receber a rota (5 segundos)
+        // System.out.println(" Veiculo em execução: " + getNome());
         try {
             Thread.sleep(50); // Aguarda 5 segundos (5000 milissegundos)
         } catch (InterruptedException e) {
