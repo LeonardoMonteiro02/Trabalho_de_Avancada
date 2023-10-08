@@ -13,36 +13,28 @@ public class Main {
         // Crie uma instância da empresa
         Company empresa = new Company(rotasParaExecutar);
 
-        // Crie e inicie várias instâncias de veículo
-        Vehicle veiculo1 = new Vehicle("Veiculo1", empresa);
-        Vehicle veiculo2 = new Vehicle("Veiculo2", empresa);
-        // Vehicle veiculo3 = new Vehicle("Veiculo3", empresa);
+        // Criar e registrar 100 veículos
+        for (int i = 1; i <= 100; i++) {
+            String nomeVeiculo = "Veiculo" + i;
+            Vehicle veiculo = new Vehicle(nomeVeiculo, empresa);
+            empresa.registrarVeiculo(veiculo);
+        }
 
-        empresa.registrarVeiculo(veiculo1);
-        empresa.registrarVeiculo(veiculo2);
+        // Iniciar as threads dos veículos
+        for (Vehicle veiculo : empresa.getfrota()) {
+            veiculo.start();
+        }
 
-        veiculo1.start();
         empresa.start();
-        veiculo2.run();
 
-        // veiculo3.start();
+        try {
 
-        // Inicie a thread da empresa
-        // empresa.start();
+            empresa.join();
 
-        // Aguarde até que todas as threads terminem
-        /*
-         * try {
-         * // veiculo1.join();
-         * // veiculo2.join();
-         * // veiculo3.join();
-         * // empresa.join();
-         * 
-         * } catch (Exception e) {
-         * e.printStackTrace();
-         * 
-         * }
-         */
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
 
         // Após a conclusão, você pode imprimir informações sobre as rotas e veículos,
         // se necessário.
@@ -51,7 +43,7 @@ public class Main {
         System.out.println("Relatorio de simulação:");
         System.out.println("=======================");
         System.out.println("");
-        System.out.println("Lista de Veiculos: " + empresa.getVeiculos().size());
+        System.out.println("Lista de Veiculos: " + empresa.getfrota().size());
         System.out.println("Rota para executar:  " + empresa.getRotasParaExecutar().size());
         System.out.println("Rota em execucao:  " + empresa.getRotasEmExecucao().size());
         System.out.println("Rota executada:  " + empresa.getRotasExecutadas().size());
