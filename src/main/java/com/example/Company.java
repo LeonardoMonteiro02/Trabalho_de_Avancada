@@ -21,20 +21,20 @@ public class Company extends Thread {
     }
 
     public synchronized void desregistrarVeiculo(Vehicle veiculo) {
+        System.out.println("Veiculo desregistrado:  " + veiculo.getNome());
         veiculos.remove(veiculo);
     }
 
     public synchronized void marcarRotaComoConcluida(Route rota) {
         rotasEmExecucao.remove(rota); // Remove da lista de rotas em execução
         rotasExecutadas.add(rota); // Move a rota para a lista de rotas executadas
+        System.out.println("Rota executada : " + getRotasExecutadas().get(getRotasExecutadas().size() - 1).getId());
 
     }
 
     public synchronized Route atribuirProximaRotaParaVeiculo(Vehicle veiculo) {
         /*
          * while (rotasParaExecutar.isEmpty() && veiculo.getRotaAtual() != null) {
-         * System.out.println("Entrei na condicão" + (veiculo.getRotaAtual().getId()));
-         * ;
          * try {
          * wait(); // Aguarda até que o veículo termine sua rota atual
          * } catch (InterruptedException e) {
@@ -69,6 +69,7 @@ public class Company extends Thread {
 
     @Override
     public synchronized void run() {
+
         while (!rotasParaExecutar.isEmpty()) {
             while (veiculos.isEmpty()) {
                 try {
@@ -83,7 +84,6 @@ public class Company extends Thread {
             // Aguarda até que o veículo termine sua rota atual
             while (veiculo.getRotaAtual() != null) {
                 try {
-                    System.out.println("Aguarde até que um veículo termine sua rota atual");
                     wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -94,6 +94,7 @@ public class Company extends Thread {
             rotasEmExecucao.add(rota); // Move a rota para a lista de rotas em execução
             veiculo.atribuirRota(rota);
             registrarVeiculo(veiculo);
+            System.out.println(veiculo.getNome() + ":  " + rota.getId());
 
         }
     }

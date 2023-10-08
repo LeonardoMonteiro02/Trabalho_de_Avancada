@@ -15,27 +15,32 @@ public class Main {
         // Crie e inicie várias instâncias de veículo
         Vehicle veiculo1 = new Vehicle("Veiculo1", empresa);
         Vehicle veiculo2 = new Vehicle("Veiculo2", empresa);
-        // System.out.println("passei 1" + empresa.getVeiculos().get(0).getName());
-        // System.out.println("passei 1" + empresa.getVeiculos().get(1).getName());
-        // System.out.println("passei 1" + empresa.getVeiculos().get(2).getName());
-        // System.out.println("passei 1" + empresa.getVeiculos().get(3).getName());
-        // Route rota0 = rotasParaExecutar.get(0); // Atribuir a rota 0 ao Veiculo 1
-        // Route rota1 = rotasParaExecutar.get(1);
+        // Vehicle veiculo3 = new Vehicle("Veiculo3", empresa);
 
         empresa.registrarVeiculo(veiculo1);
         empresa.registrarVeiculo(veiculo2);
+        // System.out.println("Veiculo registrado como : " + veiculo2.getNome());
+        // empresa.registrarVeiculo(veiculo3);
+        /*
+         * System.out.println(
+         * "Rota para executar "
+         * + empresa.getRotasParaExecutar().size());
+         */
 
         veiculo1.start();
-        veiculo2.start();
+        empresa.start();
+        veiculo2.run();
+
+        // veiculo3.start();
 
         // Inicie a thread da empresa
-        empresa.start();
+        // empresa.start();
 
-        // System.out.println("passei 1" + empresa.getVeiculos().get(1).getName());
         // Aguarde até que todas as threads terminem
         try {
-            veiculo1.join();
+            // veiculo1.join();
             veiculo2.join();
+            // veiculo3.join();
             empresa.join();
 
         } catch (InterruptedException e) {
