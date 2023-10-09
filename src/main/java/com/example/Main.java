@@ -14,7 +14,7 @@ public class Main {
         Company empresa = new Company(rotasParaExecutar);
 
         // Criar e registrar 100 veículos
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 4; i++) {
             String nomeVeiculo = "Veiculo" + i;
             Vehicle veiculo = new Vehicle(nomeVeiculo, empresa);
             empresa.registrarVeiculo(veiculo);
@@ -28,9 +28,11 @@ public class Main {
         empresa.start();
 
         try {
+            while (!empresa.getfrota().isEmpty() && !empresa.getRotasParaExecutar().isEmpty()
+                    && !empresa.getRotasEmExecucao().isEmpty()) {
 
+            }
             empresa.join();
-
         } catch (Exception e) {
             e.printStackTrace();
 

@@ -5,6 +5,7 @@ import javax.xml.parsers.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class RouteParser {
     private ArrayList<Route> routes = new ArrayList<>();
@@ -81,6 +82,11 @@ class Route {
     public double getDepartTime() {
         // Retorna o tempo de partida do veículo
         return departTime;
+    }
+
+    public double getDistanciaPercorrida() {
+        Random random = new Random();
+        return random.nextInt(100) + 300;
     }
 
     @Override

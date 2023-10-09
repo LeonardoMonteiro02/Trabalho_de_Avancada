@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Company extends Thread {
-    private ArrayList<Route> rotasParaExecutar; // Lista de rotas a serem executadas pela empresa
-    private List<Route> rotasEmExecucao = new ArrayList<>(); // Lista de rotas atualmente em execução
-    private List<Route> rotasExecutadas = new ArrayList<>(); // Lista de rotas já executadas
-    private List<Vehicle> frota = new ArrayList<>(); // Lista de veículos disponíveis para a empresa
+    private ArrayList<Route> rotasParaExecutar;
+    private List<Route> rotasEmExecucao = new ArrayList<>();
+    private List<Route> rotasExecutadas = new ArrayList<>();
+    private List<Vehicle> frota = new ArrayList<>();
 
-    // Construtor da classe Company
     public Company(ArrayList<Route> rotasParaExecutar) {
         this.rotasParaExecutar = rotasParaExecutar;
     }
 
-    // Método para registrar um veículo na frota da empresa
     public synchronized void registrarVeiculo(Vehicle veiculo) {
         frota.add(veiculo);
         if (!rotasParaExecutar.isEmpty()) {
@@ -23,53 +21,51 @@ public class Company extends Thread {
         }
     }
 
-    // Método para remover um veículo da frota da empresa
     public synchronized void desregistrarVeiculo(Vehicle veiculo) {
         frota.remove(veiculo);
 
         if (frota.isEmpty()) {
             notify();
         }
+
     }
 
-    // Método para marcar uma rota como concluída
     public synchronized void marcarRotaComoConcluida(Route rota) {
         rotasEmExecucao.remove(rota); // Remove da lista de rotas em execução
         rotasExecutadas.add(rota); // Move a rota para a lista de rotas executadas
+
     }
 
-    // Método para atribuir a próxima rota a um veículo
     public synchronized Route atribuirProximaRotaParaVeiculo(Vehicle veiculo) {
+
         if (rotasParaExecutar.isEmpty()) {
             return null; // Não há mais rotas disponíveis
         }
+
         Route rotaAtribuida = rotasParaExecutar.remove(0);
         return rotaAtribuida;
     }
 
-    // Getter para obter a lista de rotas a serem executadas
     public synchronized List<Route> getRotasParaExecutar() {
         return rotasParaExecutar;
     }
 
-    // Getter para obter a lista de rotas em execução
     public synchronized List<Route> getRotasEmExecucao() {
         return rotasEmExecucao;
     }
 
-    // Getter para obter a lista de rotas executadas
     public synchronized List<Route> getRotasExecutadas() {
         return rotasExecutadas;
     }
 
-    // Getter para obter a lista de veículos na frota
     public synchronized List<Vehicle> getfrota() {
         return frota;
     }
 
-    // Método principal da thread da empresa
     @Override
     public void run() {
+        long startTime = System.currentTimeMillis();
+
         while (!rotasParaExecutar.isEmpty()) {
             synchronized (this) {
                 while (getfrota().isEmpty()) {
@@ -102,8 +98,14 @@ public class Company extends Thread {
                 veiculo.atribuirRota(rota);
                 registrarVeiculo(veiculo);
                 System.out.println(veiculo.getNome());
+
             }
+
         }
-        System.out.println("Thread Company encerrada");
+        long endTime = System.currentTimeMillis();
+        long executionTime = endTime - startTime;
+
+        System.out.println("Thread Company ecerrada  " + " Tempo de execução: " + executionTime + "  milisegundos");
+
     }
 }
