@@ -8,42 +8,51 @@ public class Main {
         // Substitua o caminho do arquivo XML pelo caminho do seu arquivo XML
         RouteParser routeParser = new RouteParser("C:\\Users\\Leonardo Monteiro\\Desktop\\teste\\map\\map.rou.xml");
         ArrayList<Route> rotasParaExecutar = routeParser.getRoutes();
+        System.out.println("rotas para executar: " + rotasParaExecutar.size());
 
         // Crie uma instância da empresa
         Company empresa = new Company(rotasParaExecutar);
 
-        // Crie e inicie várias instâncias de veículo
-        Vehicle veiculo1 = new Vehicle("Veiculo1", empresa);
-        Vehicle veiculo2 = new Vehicle("Veiculo2", empresa);
+        // Criar e registrar 100 veículos
+        for (int i = 1; i <= 4; i++) {
+            String nomeVeiculo = "Veiculo" + i;
+            Vehicle veiculo = new Vehicle(nomeVeiculo, empresa);
+            empresa.registrarVeiculo(veiculo);
+        }
 
-        Route rota0 = rotasParaExecutar.get(0); // Atribuir a rota 0 ao Veiculo 1
-        Route rota1 = rotasParaExecutar.get(1);
+        // Iniciar as threads dos veículos
+        for (Vehicle veiculo : empresa.getfrota()) {
+            veiculo.start();
+        }
 
-        empresa.registrarVeiculo(veiculo1, rota0);
-        empresa.registrarVeiculo(veiculo2, rota1);
-
-        veiculo1.start();
-        veiculo2.start();
-
-        // Inicie a thread da empresa
         empresa.start();
-        System.out.println("passei 1");
-        // Aguarde até que todas as threads terminem
+
         try {
-            veiculo1.join();
-            veiculo2.join();
+            while (!empresa.getfrota().isEmpty() && !empresa.getRotasParaExecutar().isEmpty()
+                    && !empresa.getRotasEmExecucao().isEmpty()) {
+
+            }
             empresa.join();
-            System.out.println("passei 2");
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("passei 3");
+
         }
 
         // Após a conclusão, você pode imprimir informações sobre as rotas e veículos,
         // se necessário.
-        // System.out.println("Rotas Executadas: " + empresa.getRotasExecutadas());
-        // System.out.println("Rotas Pendentes: " + empresa.getRotasParaExecutar());
-        System.out.println("Rotas em Execução: " + empresa.getRotasEmExecucao());
-        System.out.println("Veículos Disponíveis: " + empresa.getVeiculos().get(1).getNome());
+        System.out.println("");
+        System.out.println("========================================");
+        System.out.println("Relatorio de simulação:");
+        System.out.println("=======================");
+        System.out.println("");
+        System.out.println("Lista de Veiculos: " + empresa.getfrota().size());
+        System.out.println("Rota para executar:  " + empresa.getRotasParaExecutar().size());
+        System.out.println("Rota em execucao:  " + empresa.getRotasEmExecucao().size());
+        System.out.println("Rota executada:  " + empresa.getRotasExecutadas().size());
+        System.out.println("");
+        System.out.println("========================================");
+        System.out.println("SIMULAÇÂO TERMINDADA");
+        System.out.println("========================================");
+
     }
 }
